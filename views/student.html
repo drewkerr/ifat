@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Immediate Feedback Assessment Tool</title>
+	<meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    
+  <div id="quiz" class="page"></div>
+  
+  <div id="login" class="page">
+    <form id="session" class="page">
+      <span>Enter class code:</span>
+      <input id="code" name="session" maxlength="4" autocapitalize="off" autocorrect="off" autocomplete="off" />
+      <input id="name" name="name" placeholder="Enter names" />
+      <button class="disabled">Start</button>
+    </form>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="/student.js"></script>
+  
+</body>
+</html>

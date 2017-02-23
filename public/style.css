@@ -2,27 +2,46 @@ body {
 	font-family: sans-serif;	
 }
 
-form {
+.page {
 	padding: 50px;
+}
+
+#session,
+#names {
+  position: absolute;
+  text-align: center;
+  top: 30%;
+}
+
+#names,
+#quiz {
+  display: none;
 }
 
 table, label, input, button, span {
 	font-size: 50px;
 }
 
-span {
-	color: red;
-	display: block;
-	margin: 0 auto;
-	text-align: center;
-}
-
 table {
 	margin: 0 auto;
+	border-spacing: 0;
+	border-collapse: separate;
 }
 
 tr {
 	height: 2em;
+}
+
+tr:nth-child(even) {
+    background-color: #ddd;
+}
+
+tr:nth-child(even) td:first-child {
+	border-radius: 10px 0 0 10px;
+}
+
+tr:nth-child(even) td:last-child {
+	border-radius: 0 10px 10px 0;
 }
 
 td {
@@ -40,30 +59,33 @@ td {
 	font-weight: 100;
 }
 
-#name {
-	width: 100%;
-	margin-bottom: 50px;
+tr:nth-child(even) .question {
+    color: #fff;
+	text-shadow: 0 0 5px #999;
+}
+
+input {
+	position: relative;
+	margin-right: 10px;
 	border-radius: 10px;
 	border: 1px solid #999;
 	padding: 10px;
-	transition: all .1s ease;
 	outline: none;
 }
 
-#name:focus {
+input:focus {
 	box-shadow: 0 0 10px #3cf;
 }
 
 button {
-	display: block;
 	position: relative;
+  top: -3px;
 	color: #fff;
 	background: #3cf;
-	margin: 100px auto 50px;
 	text-align: center;
 	padding: 20px;
-	line-height: 40px;
-	min-width: 270px;
+	line-height: 36px;
+	min-width: 5em;
 	border-radius: 10px;
 	box-shadow: 0px 5px #09c;
 	border: 0;
