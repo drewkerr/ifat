@@ -1,0 +1,12 @@
+extends index.pug
+
+block scripts
+
+block content
+  if error
+    .message.red #{error}
+  #login.page
+    form(action="/admin/new" method="get")
+      label Enter answer key:
+        input#key(name="key" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false")
+      button Create

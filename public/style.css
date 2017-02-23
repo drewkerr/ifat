@@ -3,7 +3,7 @@ body {
 }
 
 .page {
-	padding: 50px;
+	padding: 100px 50px;
 }
 
 #session,
@@ -13,12 +13,7 @@ body {
   top: 30%;
 }
 
-#names,
-#quiz {
-  display: none;
-}
-
-table, label, input, button, span {
+#quiz > table, label, input, button, span, .message {
 	font-size: 50px;
 }
 
@@ -26,6 +21,7 @@ table {
 	margin: 0 auto;
 	border-spacing: 0;
 	border-collapse: separate;
+  white-space: nowrap;
 }
 
 tr {
@@ -33,7 +29,7 @@ tr {
 }
 
 tr:nth-child(even) {
-    background-color: #ddd;
+  background-color: #ddd;
 }
 
 tr:nth-child(even) td:first-child {
@@ -53,14 +49,38 @@ td {
 	transition: text-shadow 1s ease-in;
 }
 
+.message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.red {
+  background-color: #fcc;
+}
+
+.green {
+  background-color: #cfc;
+}
+
+.blue {
+  background-color: #cef;
+}
+
 .question {
 	color: #999;
 	text-align: right;
 	font-weight: 100;
+  padding-right: 0.5em;
 }
 
 tr:nth-child(even) .question {
-    color: #fff;
+  color: #fff;
 	text-shadow: 0 0 5px #999;
 }
 
