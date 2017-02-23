@@ -1,0 +1,20 @@
+extends index.pug
+
+block append scripts
+  script(src="/results.js")
+
+block content
+  .message.blue Enter class code #[strong #{results.code}] at ifat.gomix.com
+  #results.page
+    table
+      thead
+        tr
+          th Name
+          - for (var q = 1; q <= results.key.length; q++)
+            th Question #{q}
+      tbody
+        each response in results.responses
+          tr
+            td= response.names
+            each a,q in response.questions
+              td= a
