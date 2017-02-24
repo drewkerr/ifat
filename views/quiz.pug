@@ -1,7 +1,10 @@
 extends index.pug
 
+block style
+      link(rel="stylesheet" href="/quiz.css")
+
 block append scripts
   script(src="/quiz.js")
 
 block content
-  #quiz.page
+  #quiz
