@@ -1,12 +1,16 @@
 extends index.pug
 
+block style
+      link(rel="stylesheet" href="/login.css")
+
 block scripts
 
 block content
   if error
-    .message.red #{error}
-  #login.page
+    .message #{error}
+  #login
     form(action="/admin/new" method="get")
-      label Enter answer key:
-        input#key(name="key" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false")
-      button Create
+      input#key(name="key" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" placeholder="Enter answer key")
+      #join
+        button Create
+  #instructions Immediate feedback assessment is a key element of Team-Based Learning (TBL) as in the work of Michaelsen & Sweet (2008).

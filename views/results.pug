@@ -1,20 +1,40 @@
 extends index.pug
 
+block style
+      link(rel="stylesheet" href="/results.css")
+
 block append scripts
   script(src="/results.js")
 
 block content
-  .message.blue Enter class code #[strong #{results.code}] at ifat.gomix.com
-  #results.page
+  .message Enter class code #[strong #{results.code}] at ifat.gomix.com
+  #options
+    input#view(type="checkbox")
+    label(for="view") View Results
+    a#csv(href="csv") Export CSV
+  #results
     table
       thead
         tr
-          th Name
+          th.left Team
           - for (var q = 1; q <= results.key.length; q++)
-            th Question #{q}
+            th.right Question #{q}
       tbody
         each response in results.responses
           tr
-            td= response.names
+            td.left.blue= response.names
             each a,q in response.questions
-              td= a
+              - var complete = (a.indexOf(results.key[q-1]) > -1)
+              - var len = a.length
+              if complete
+                case len
+                  when 1
+                    td.right.complete.view.green= a
+                  when 2
+                    td.right.complete.view.yellow= a
+                  when 3
+                    td.right.complete.view.orange= a
+                  when 4
+                    td.right.complete.view.red= a
+              else
+                td.right= a

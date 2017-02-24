@@ -21,7 +21,7 @@ app.set('json spaces', 2);
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-app.get('/admin/results', function (request, response) {
+app.get('/admin/json', function (request, response) {
   response.json(db.getState());
 });
 
@@ -43,7 +43,7 @@ app.get('/admin/new', function (request, response) {
               opt: 'ABCD',
               responses: [] })
       .write();
-    response.redirect('/admin/' + code);
+    response.redirect('/admin/' + code + '/');
   } else {
     response.redirect('/admin?error=Invalid key');
   }
@@ -97,7 +97,7 @@ app.get('/', function (request, response) {
 });
 
 app.get('/join', function (request, response) {
-  var code = request.query.code;
+  var code = request.query.code.toLowerCase();
   var user = Math.random().toString(36).slice(-6);
   var questions = {}
   var key = db.get('results')
