@@ -1,23 +1,31 @@
 $(document).ready(function() {
 
   var incomplete;
+  var checking = false;
 
   function onCorrect(element) {
+    // disable row
+    var question = $(element).attr('class');
+    $('[class=' + question + ']').off();
+    // nod head
     $(element).text('😄');
 		$(element).css({ 'text-shadow': '0 0 20px rgba(0,255,0,0.5)' });
 		for (var x = 1; x <= 2; x++) {
 			$(element).animate({ top: -10 }, 50)
 						    .animate({ top: 0 }, 50);
 		}
-    var question = $(element).attr('class');
-		$('[class=' + question + ']').off();
+    // count down questions left to answer
     incomplete--;
     if (incomplete == 0) {
       onComplete();
     }
+    checking = false;
   }
 
   function onIncorrect(element) {
+    // disable element
+    $(element).off();
+    // shake head
     $(element).text('😳');
 		$(element).css({ 'text-shadow': '0 0 20px rgba(255,0,0,0.5)' });
 		for (var x = 1; x <= 2; x++) {
@@ -25,16 +33,20 @@ $(document).ready(function() {
 						    .animate({ left: 3 }, 100 / 2)
 						    .animate({ left: 0 }, 100 / 4);
 		}
+    // hide element
 		$(element).animate({ opacity: 0}, 2000);
-		$(element).off();
+    checking = false;
   }
 
   function onComplete() {
-    $("<div></div>").text('Complete!').addClass('message green').hide().prependTo('body').slideDown();
+    $.get('save', { complete: true } )
+      .done(function() {
+        $("<div></div>").text('Complete!').addClass('message').hide().prependTo('body').slideDown();
+      });
   }
 
   $.get('load', function(data) {
-    // count down until all questions completed
+    // questions to be completed
     incomplete = data.length;
     // build quiz table from GET data
     var table = $('<table></table>');
@@ -52,19 +64,25 @@ $(document).ready(function() {
 			  tr.append(td);
 
         td.click(function(event) {
-          // save only if click() by user
-          var save = event.originalEvent !== undefined;
-          var question = $(this).attr('class');
-					var response = $(this).text();
-          var element = this;
-      		$.get('save', { question: question, response: response, save: save } )
-            .done(function(correct) {
-              if (correct) {
-                onCorrect(element);
-              } else {
-                onIncorrect(element);
-              }
-            });
+          // only if not handling an event
+          if (!checking) {
+            // save only if click() by user
+            var save = event.originalEvent !== undefined;
+            if (save) {
+              checking = true;
+            }
+            var question = $(this).attr('class');
+					  var response = $(this).text();
+            var element = this;
+      		  $.get('save', { question: question, response: response, save: save } )
+              .done(function(correct) {
+                if (correct) {
+                  onCorrect(element);
+                } else {
+                  onIncorrect(element);
+                }
+              });
+          }
 			  });
 		  }
 	  }
@@ -75,7 +93,5 @@ $(document).ready(function() {
   		  $('[class='+q+']').filter(':contains('+data.answers[q][a]+')').click();
 			}
     }
-      
-    
   });
 });
