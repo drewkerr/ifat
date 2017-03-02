@@ -1,40 +1,50 @@
 extends index.pug
 
-block style
-      link(rel="stylesheet" href="/results.css")
+block append style
+  link(rel="stylesheet" href="/results.css")
 
 block append scripts
   script(src="/results.js")
 
 block content
-  .message Enter class code #[strong #{results.code}] at ifat.gomix.com
+  .message Enter code #[strong #{results.code}] at 
+    a(href="https://ifat.gomix.me" target="_blank") ifat.gomix.me
   #options
     input#view(type="checkbox")
     label(for="view") View Results
-    a#csv(href="csv") Export CSV
+    a.button(href="csv") Export CSV
   #results
     table
       thead
         tr
-          th.left Team
+          th.left Name(s)
           - for (var q = 1; q <= results.key.length; q++)
             th.right Question #{q}
       tbody
         each response in results.responses
           tr
-            td.left.blue= response.names
+            - var complete = response.times[1]
+            if complete
+              td.left.blue.complete= response.names
+            else
+              td.left.blue= response.names
             each a,q in response.questions
-              - var complete = (a.indexOf(results.key[q-1]) > -1)
+              - var done = (a.indexOf(results.key[q-1]) > -1)
               - var len = a.length
-              if complete
+              if done
                 case len
                   when 1
-                    td.right.complete.view.green= a
+                    td.right.done.view.green= a
                   when 2
-                    td.right.complete.view.yellow= a
+                    td.right.done.view.yellow= a
                   when 3
-                    td.right.complete.view.orange= a
+                    td.right.done.view.orange= a
                   when 4
-                    td.right.complete.view.red= a
+                    td.right.done.view.red= a
               else
-                td.right= a
+                case len
+                  when 0
+                    td.right= a
+                  default
+                    td.right.done.view= a
+  #instructions Immediate feedback assessment is a key element of Team-Based Learning (TBL) as in the work of Michaelsen & Sweet (2008).

@@ -1,10 +1,13 @@
 extends index.pug
 
-block style
-      link(rel="stylesheet" href="/quiz.css")
+block append style
+  link(rel="stylesheet" href="/quiz.css")
 
 block append scripts
-  script(src="/quiz.js")
+  if feedback
+    script(src="/team.js")
+  else
+    script(src="/solo.js")
 
 block content
   #quiz

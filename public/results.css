@@ -1,40 +1,16 @@
-body, label, input {
-	font-family: sans-serif;
-}
-
-body {
-  font-size: 20px;
-  background-color: #f0f0f0;
-  padding: 0;
-  margin: 0;
-}
-
 #results {
-  padding: 3em 2em;
   height: 100%;
   width: 100%;
   overflow-x: auto;
 }
 
-table,
-.message {
-  box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
-}
-
 table {
-  border-radius: 1em;
-	border-spacing: 0;
-	border-collapse: separate;
-  white-space: nowrap;
-  background-color: white;
+  font-size: 40%;
+  margin: 2.5em;
 }
 
 thead {
   position: sticky;
-}
-
-tr {
-	height: 2em;
 }
 
 th,
@@ -50,20 +26,8 @@ tr:last-child td {
   border-bottom: 0;
 }
 
-tr:last-child td:first-child,
-.bottom-left {
-  border-radius: 0 0 0 1em;
-}
-
-tr:last-child td:last-child {
-  border-radius: 0 0 1em 0;
-}
-
 th {
 	font-weight: bold;
-}
-
-td {
 }
 
 .left {
@@ -75,13 +39,8 @@ td {
 }
 
 .message {
-  font-size: 250%;
   position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 0.25em;
-  text-align: center;
+  width: auto;
   background-color: #07f;
   color: white;
 }
@@ -90,6 +49,10 @@ td {
   border: 0.1em solid white;
   border-radius: 0.25em;
   padding: 0 0.25em;
+}
+
+.message a {
+  color: white;
 }
 
 .red {
@@ -117,68 +80,44 @@ td {
   color: white;
 }
 
+.gray {
+  background-color: #ddd;
+  color: white;
+}
+
 .view {
   background-color: #3cf;
   color: #3cf;
 }
 
-#options {
-  display: flex;
-	flex-flow: row wrap;
-  margin: 0 1em 0 2em;
+.view.gray {
+  background-color: #eee;
+  color: #eee;
 }
 
-input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-}
-
-#csv,
-input[type="checkbox"] + label {
-  flex: 0 0 auto;
-  position: relative;
-  top: 0;
-	color: #fff;
-  margin: 1.5em 1.5em 0 0;
-  padding: 0.25em 1em;
-	border: 0;
-	border-radius: 0.25em;
-  font-size: 150%;
-}
-
-input[type="checkbox"] + label {
-  background-color: #999;
-  box-shadow: 0 0.1em #666;
-}
-
-input[type="checkbox"] + label:before {
-  content: '✔ ';
-  color: #999;
-}
-
-input[type="checkbox"]:checked + label {
-	background-color: #3cf;
-	box-shadow: 0 0.1em #09c;
-}
-
-input[type="checkbox"]:checked + label:before {
+.complete:before {
+  content:  "\2713\ ";
   color: white;
 }
 
-#csv {
-	background-color: #3cf;
-	box-shadow: 0 0.1em #09c;
-  text-decoration: none;
+#options {
+  display: flex;
+	flex-flow: row wrap;
+  margin: 0 1em;
 }
 
-#csv:active,
-input[type="checkbox"] + label:active {
-	top: 0.1em;
-	box-shadow: none;
+button,
+.button,
+input[type="checkbox"] + label {
+  flex: 0 0 auto;
+  font-size: 60%;
+  margin: 1.5em 1.5em 0 0;
+  padding: 0.25em 0.5em;
 }
 
-@media screen and (max-width: 640px) {
-  body {
-	  font-size: 12px;
-  }
+#instructions {
+  margin: 0 1.5em 1.5em;
+  line-height: 1.5;
+  color: #ccc;
+  font-size: 60%;
 }
