@@ -26,6 +26,10 @@ body {
   color: #ccc;
 }
 
+#instructions a {
+  color: #999;
+}
+
 form {
 	display: flex;
 	flex-flow: row wrap;

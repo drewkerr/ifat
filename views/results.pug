@@ -17,7 +17,7 @@ block content
     table
       thead
         tr
-          th.left Name(s)
+          th.left Names
           - for (var q = 1; q <= results.key.length; q++)
             th.right Question #{q}
       tbody
@@ -47,4 +47,7 @@ block content
                     td.right= a
                   default
                     td.right.done.view= a
-  #instructions Immediate feedback assessment is a key element of Team-Based Learning (TBL) as in the work of Michaelsen & Sweet (2008).
+  #instructions
+    p Progress updates automatically.
+    p #[em View Results] can be useful to discuss challenging questions anonymously.
+    p #[em Export CSV] to open as a spreadsheet, view scores and keep results.
