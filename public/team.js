@@ -39,7 +39,7 @@ $(document).ready(function() {
   }
 
   function onComplete() {
-    $.get('save', { complete: true } )
+    $.get('save', { complete: true })
       .done(function() {
         $("<div></div>").text('Complete!').addClass('message').hide().prependTo('body').slideDown();
       });
@@ -74,7 +74,7 @@ $(document).ready(function() {
             var question = $(this).attr('class');
 					  var response = $(this).text();
             var element = this;
-      		  $.get('save', { question: question, response: response, save: save } )
+      		  $.get('save', { question: question, response: response, save: save })
               .done(function(correct) {
                 if (correct) {
                   onCorrect(element);
@@ -86,12 +86,14 @@ $(document).ready(function() {
 			  });
 		  }
 	  }
-
+  })
+  .done(function(data) {
     // resume quiz on reload
     for (var q in data.answers) {
       for (var a in data.answers[q]) {
-  		  $('[class='+q+']').filter(':contains('+data.answers[q][a]+')').click();
-			}
+  	    $('[class='+q+']').filter(':contains('+data.answers[q][a]+')').click();
+		  }
     }
   });
+
 });

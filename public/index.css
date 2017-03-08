@@ -1,5 +1,5 @@
 body, label, input, button {
-	font-family: sans-serif;
+	font-family: -apple-system, sans-serif;
 	font-size: 50px;
   background-color: #f6f6f6;
   padding: 0;
@@ -12,6 +12,44 @@ body, label, input, button {
   }
 }
 
+.page,
+.colophon {
+  font-size: 50%;
+  max-width: 25em;
+  padding: 1em;
+}
+
+.page {
+  margin: 2em auto 1em;
+  border-radius: 0.5em;
+  background-color: white;
+}
+
+.colophon {
+  margin: 0 auto 1em;
+  color: #999;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+}
+
+.page p,
+.page li {
+  line-height: 1.5em;
+  margin: 1em 0;
+}
+
+.page ul,
+.page ol {
+  margin-left: 0.5em;
+  padding-left: 1em;
+}
+
+.page a {
+  color: #3cf;
+}
+
 .message {
   position: fixed;
   top: 0;
@@ -19,12 +57,13 @@ body, label, input, button {
   width: 100%;
   padding: 0.25em;
   text-align: center;
-  z-index: 1000;
+  z-index: 10;
 }
 
 #login,
 table,
-.message {
+.message,
+.page {
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
 }
 
