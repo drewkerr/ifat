@@ -1,5 +1,5 @@
 #quiz {
-  padding: 2em 1em;
+  padding: 3em 1em 1em;
 }
 
 table {
@@ -10,8 +10,8 @@ tr:nth-child(even) {
   background-color: #eee;
 }
 
-tr:last-child td:first-child {
-  border-radius: 0 0 0 0.5em;
+tr:first-child td:last-child {
+  border-radius: 0 0.5em 0 0;
 }
 
 tr:last-child td:last-child {
@@ -30,7 +30,7 @@ td {
 .question {
 	color: #999;
 	text-align: right;
-	font-weight: 100;
+	font-weight: normal;
   padding-right: 0.5em;
 }
 
@@ -39,21 +39,54 @@ tr:nth-child(even) .question {
 	text-shadow: 0 0 5px #999;
 }
 
-.selected,
 .confirmed {
-  transition: all 0.5s ease;
-  color: white;
+  transition: background-color 0.5s ease;
+}
+
+tr:last-child td:last-child.selected {
+  border-radius: 0;
+}
+
+.selected:before {
+  content: 'Sure?';
+  position: absolute;
+  display: block;
+  top: 4em;
+  right: 0;
+  box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+  border-radius: 0.5em 0 0.5em 0.5em;
+  background-color: white;
+  padding: 0.5em;
+  font-size: 50%;
+  font-style: italic;
+  line-height: 1em;
+  font-weight: normal;
+  z-index: 5;
 }
 
 .selected {
-  background-color: #999;
+  background-color: #ccc;
+  animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { background-color: inherit; }
+  to { background-color: initial; }
 }
 
 .confirmed {
   background-color: #3cf;
+  color: white;
 }
 
 .message {
   background-color: #4d6;
   color: white;
+}
+
+#instructions {
+  margin: 0 auto 1.5em;
+  max-width: 10em;
+  line-height: 1.5;
+  color: #ccc;
 }

@@ -17,6 +17,6 @@ The use of IF-AT is key to the tRAT. This tool provides a digital alternative to
 
 ## Features
 
-- Custom test length (and choices) generated from alphabetic answer key
+- Custom test length (and options) generated from alphabetic answer key
 - Multiple sessions with start/finish times and unique session keys
-- Email teacher with CSV of team names, results, start time and score calculation
+- CSV export of names, results, times and score calculation

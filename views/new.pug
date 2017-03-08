@@ -3,17 +3,25 @@ extends index.pug
 block append style
   link(rel="stylesheet" href="/login.css")
 
-block scripts
+block append scripts
+  script.
+    $(document).ready(function() { $('#tz').val(new Date().getTimezoneOffset()); });
 
 block content
   if error
     .message #{error}
   #login
     form(action="/admin/new" method="get")
+      input#tz(name="tz" type="hidden")
       input#key(name="key" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" placeholder="Enter answer key")
       #options
         input#feedback(name="feedback" type="checkbox" checked="checked")
         label(for="feedback") Feedback
       #join
         button Create
-  #instructions Immediate feedback assessment is a key element of Team-Based Learning (TBL) as in the work of Michaelsen & Sweet (2008).
+  #instructions
+    p Enter multiple-choice answer key, one letter per question.
+    p e.g. for a five question assessment: ADCBC
+    p Feedback is useful for team assessments. Disable feedback for individual assessment.
+    p
+      a(href="/about") More information...
