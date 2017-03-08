@@ -1,6 +1,6 @@
 {
 	"name": "if-at",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Online assessment tool giving immediate feedback for multiple-choice tests",
 	"main": "server.js",
 	"scripts": {
