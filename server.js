@@ -54,7 +54,7 @@ app.get('/admin/new', function (request, response) {
   } else if (/^[YN]+$/.test(key)) {
     var opt = 'YN';
   } else {
-    response.redirect('/admin?error=Invalid key');
+    return response.redirect('/admin?error=Invalid key');
   }
   // check for existing session code
   do {
