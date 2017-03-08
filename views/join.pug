@@ -10,8 +10,10 @@ block content
     .message #{error}
   #login
     form(action="/join" method="get")
-      input#name(name="name" maxlength="50" placeholder="Enter name(s)")
+      input#name(name="name" maxlength="50" placeholder="Enter names")
       input#code(name="code" maxlength="4" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" placeholder="code")
       #join
         button Start
-  #instructions Enter the names of all your team members and the class code.
+  #instructions
+    p Enter first name and initial if working individually or the names of all team members.
+    p The code will be provided.

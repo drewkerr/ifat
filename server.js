@@ -5,12 +5,13 @@
 var express = require('express');
 var low = require('lowdb');
 var fileAsync = require('lowdb/lib/storages/file-async');
+var moment = require('moment');
 var app = express();
 
-// Start database using file-async storage
+// start database using file-async storage
 var db = low('.data/db.json', { storage: fileAsync });
 
-// Set some defaults if JSON file is empty
+// set some defaults if JSON file is empty
 db.defaults({ results: [] }).write();
 
 app.set('view engine', 'pug');
@@ -21,6 +22,16 @@ app.set('json spaces', 2);
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+// random alphanumeric code generator of guaranteed length
+function rString(len) {
+  var s = Math.random().toString(36).slice(-len); return s.length===len ? s : rString(len);
+}
+
+// http://expressjs.com/en/starter/basic-routing.html
+app.get('/about', function (request, response) {
+  response.render('about', { title: 'About IF-AT' });
+});
+
 app.get('/admin/json', function (request, response) {
   response.json(db.getState());
 });
@@ -29,21 +40,27 @@ app.get('/admin/reset', function (request, response) {
   response.json(db.set('results', []));
 });
 
-// http://expressjs.com/en/starter/basic-routing.html
 app.get('/admin', function (request, response) {
   response.render('new', { title: 'IF-AT Administration', error: request.query.error });
 });
 
 app.get('/admin/new', function (request, response) {
   var key = request.query.key.toUpperCase();
+  // check key is valid
   if (/^[A-D]+$/.test(key)) {
-    var code = Math.random().toString(36).slice(-4);
-    var user = Math.random().toString(36).slice(-6);
+    // check for existing session code
+    do {
+      var code = rString(4);
+    } while ( db.get('results').find({ code: code }).value() );
+    var user = rString(6);
+    var utc = -parseInt(request.query.tz);
     db.get('results')
       .push({ code: code,
               user: user,
               key: key,
               opt: 'ABCD',
+              tz: utc,
+              time: moment().utcOffset(utc).format(),
               feedback: request.query.feedback,
               responses: [] })
       .write();
@@ -67,21 +84,21 @@ app.get('/admin/:code/:user', function (request, response) {
 app.get('/admin/:code/:user/csv', function (request, response) {
   // get params
   var code = request.params.code;
+  var user = request.params.user;
   // load session results
   var results = db.get('results')
                   .find({ code: code })
                   .value();
-  if (!results || request.params.user !== results.user ) {
+  if (!results || user !== results.user ) {
     response.redirect('/admin?error=Results unavailable');
   } else {
     var csv = [];
-    // generate headers: Names, Questions, Score
-    var line = ['Name(s)'];
+    // generate headers: Names, Questions, Score, Times
+    var line = ['Names'];
     for (var q = 1; q <= results.key.length; q++) {
       line.push('Question ' + q);
     }
-    line.push('Score');
-    //line.push('Score', 'Start', 'Finish');
+    line.push('Score', 'Start', 'Finish');
     csv.push(line.join(','));
     // load session results by response r
     for (var r in results.responses) {
@@ -103,14 +120,15 @@ app.get('/admin/:code/:user/csv', function (request, response) {
         }
       }
       line.push(score);
-      // Times with timezone offset from client
-      // var start = results.responses[r].times[0];
-      // var finish = results.responses[r].times[1] ? results.responses[r].times[1] : '';
-      // line.push(start, finish);
+      // times with timezone offset from client
+      var start = moment(results.responses[r].times[0]).utcOffset(results.tz).format('D/M/YYYY h:mma');
+      var finish = results.responses[r].times[1] ?
+                  moment(results.responses[r].times[1]).utcOffset(results.tz).format('h:mma') : '';
+      line.push(start, finish);
       csv.push(line.join(','));
     }
     var file = csv.join('\n')
-    response.attachment('results-' + code + '.csv')
+    response.attachment('results-' + code + '-' + user + '.csv')
     response.send(file);
   }
 });
@@ -121,18 +139,17 @@ app.get('/', function (request, response) {
 
 app.get('/join', function (request, response) {
   var code = request.query.code.toLowerCase();
-  var user = Math.random().toString(36).slice(-6);
+  var user = rString(6);
   var questions = {}
-  var key = db.get('results')
+  var results = db.get('results')
               .find({ code: code })
-              .get('key')
               .value();
   if (!request.query.name) {
     response.redirect('/?error=Please enter names');
-  } else if (!key) {
+  } else if (!results.key) {
     response.redirect('/?error=Incorrect code');
   } else {
-    for (var q = 1; q <= key.length; q++) {
+    for (var q = 1; q <= results.key.length; q++) {
       questions[q] = '';
     }
     db.get('results')
@@ -140,7 +157,7 @@ app.get('/join', function (request, response) {
       .get('responses')
       .push({ user: user,
               names: request.query.name,
-              times: [new Date()],
+              times: [moment().utcOffset(results.tz).format()],
               questions: questions })
       .write();
     response.redirect('/' + code + '/' + user + '/');
@@ -190,18 +207,20 @@ app.get('/:code/:user/save', function (request, response) {
   var code = request.params.code;
   var user = request.params.user;
   if (request.query.complete) {
+    var results = db.get('results')
+                    .find({ code: code })
+                    .value();
     db.get('results')
       .find({ code: code })
       .get('responses')
       .find({ user: user })
       .get('times')
-      .push(new Date())
+      .push(moment().utcOffset(results.tz).format())
       .write();
     response.send(true);
   } else {
-    var key = db.get('results')
+    var results = db.get('results')
                 .find({ code: code })
-                .get('key')
                 .value();
     // existing answer
     var ans = db.get('results')
@@ -224,7 +243,7 @@ app.get('/:code/:user/save', function (request, response) {
         .write();
     }
     // if response is equal to answer key
-    if (key.charAt(q-1) == a) {
+    if (results.key.charAt(q-1) == a) {
         response.send(true);
     } else {
         response.send(false);

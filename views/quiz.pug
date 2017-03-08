@@ -11,3 +11,11 @@ block append scripts
 
 block content
   #quiz
+  if feedback
+    #instructions
+      p For each question, select answers until the correct one is found.
+      p Answers are recorded with immediate feedback.
+  else
+    #instructions
+      p For each question, select one answer and again to confirm.
+      p Answers are recorded without feedback.

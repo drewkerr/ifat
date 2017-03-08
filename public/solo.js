@@ -3,23 +3,22 @@ $(document).ready(function() {
   var incomplete;
   var checking = false;
 
-  function onConfirm(element, clicked) {
+  function onConfirm(element) {
     var question = $(element).attr('class');
-		var response = $(element).text();
-    $.get('save', { question: question, response: response, save: clicked } )
-      .done(function() {
-        var question = $(element).attr('class');
-		    $('[class=' + question + ']').off();
-      	$(element).addClass('confirmed');
-        incomplete--;
-        if (incomplete == 0) {
-          onComplete();
-        }
-      });
+    // disable row
+    $('[class=' + question + ']').off();
+    // mark confirmed
+   	$(element).addClass('confirmed');
+    // count down questions left to answer
+    incomplete--;
+    if (incomplete == 0) {
+      onComplete();
+    }
+    checking = false;
   }
 
   function onComplete() {
-    $.get('save', { complete: true } )
+    $.get('save', { complete: true })
       .done(function() {
         $("<div></div>").text('Complete!').addClass('message').hide().prependTo('body').slideDown();
       });
@@ -53,27 +52,32 @@ $(document).ready(function() {
               var element = this;
               var selected = $(element).hasClass('selected');
               if (selected) {
-                $(this).removeClass('selected');
-                onConfirm(element, clicked);
-                checking = false;
+                $(element).removeClass('selected');
+                var question = $(element).attr('class');
+		            var response = $(element).text();
+                $.get('save', { question: question, response: response, save: clicked } )
+                  .done(function() {
+                    onConfirm(element);
+                  });
               } else {
                 $('.selected').removeClass('selected');
-                $(this).addClass('selected');
+                $(element).addClass('selected');
                 checking = false;
               }
-            } else {
-              onConfirm(element, clicked);
             }
           }
 			  });
 		  }
 	  }
-
+  })
+  .done(function(data) {
     // resume quiz on reload
     for (var q in data.answers) {
       for (var a in data.answers[q]) {
-  		  $('[class='+q+']').filter(':contains('+data.answers[q][a]+')').click();
-			}
+  	    var element = $('[class='+q+']').filter(':contains('+data.answers[q][a]+')');
+        onConfirm(element);
+		  }
     }
   });
+
 });
