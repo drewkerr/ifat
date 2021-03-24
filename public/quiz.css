@@ -80,8 +80,26 @@ tr:last-child td:last-child.selected {
 }
 
 .message {
+  background-color: white;
+  color: #ccc;
+  transition: background-color 1s ease;
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #3cf;
+  height: 0.25em;
+  width: 0%;
+  transition: width 1s ease;
+  z-index: 20;
+}
+
+.complete {
   background-color: #4d6;
   color: white;
+  padding: 0.25em;
 }
 
 #instructions {
