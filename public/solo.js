@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+  var length;
   var incomplete;
   var checking = false;
 
@@ -14,21 +15,34 @@ $(document).ready(function() {
     if (incomplete == 0) {
       onComplete();
     }
+    updateProgress();
     checking = false;
+  }
+
+  function updateProgress() {
+    var complete = length - incomplete;
+    $('.message').text(complete + ' / ' + length);
+    $('.progress').css({'width': parseInt(complete/length*100) + '%'});
   }
 
   function onComplete() {
     $.get('save', { complete: true })
       .done(function() {
-        $("<div></div>").text('Complete!').addClass('message').hide().prependTo('body').slideDown();
+        $('.progress').css({'height': 0});
+        $('.message').text('Complete!').addClass('complete');
+        $('#quiz').fadeOut(1000);
+        $('#instructions').fadeOut(1000);
+        $('body').css({'margin-top': '4em', 'text-align': 'center'});
+        $('<a href="javascript:history.back()"></a>').text('Start new session').addClass('button').appendTo('body');
       });
   }
 
   $.get('load', function(data) {
     // count down until all questions completed
+    length = data.length;
     incomplete = data.length;
     // build quiz table from GET data
-    var table = $('<table></table>');
+    var table = $('<table></table>').hide();
     $('#quiz').append(table);
 	  for (var question = 1; question <= data.length; question++) {
 	    var tr = $('<tr></tr>');
@@ -69,6 +83,7 @@ $(document).ready(function() {
 			  });
 		  }
 	  }
+    table.fadeIn(1000);
   })
   .done(function(data) {
     // resume quiz on reload
@@ -78,6 +93,10 @@ $(document).ready(function() {
         onConfirm(element);
 		  }
     }
+    // show progress bar
+    $('<div></div>').addClass('message').hide().prependTo('body').slideDown();
+    $('<div></div>').addClass('progress').prependTo('body');
+    updateProgress();
   });
 
 });

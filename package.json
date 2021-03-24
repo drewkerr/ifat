@@ -1,28 +1,28 @@
 {
-	"name": "if-at",
-	"version": "1.0.1",
-	"description": "Online assessment tool giving immediate feedback for multiple-choice tests",
-	"main": "server.js",
-	"scripts": {
-		"start": "node server.js"
-	},
-	"dependencies": {
-		"express": "^4.15.0",
-		"pug": "^0.1.0",
-		"lowdb": "^0.15.5",
-		"moment": "^2.17.1"
-	},
-	"engines": {
-		"node": "6.9.1"
-	},
-	"repository": {
-		"type": "Gomix",
-		"url": "https://gomix.com/#!/project/ifat"
-	},
-	"keywords": [
-		"node",
-		"gomix",
-		"express"
-	],
-	"license": "MIT"
+  "name": "if-at",
+  "version": "1.0.3",
+  "description": "Online assessment tool giving immediate feedback for multiple-choice tests",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "pug": "^3.0.2",
+    "lowdb": "^1.0.0",
+    "moment": "^2.29.1"
+  },
+  "engines": {
+    "node": "6.9.1"
+  },
+  "repository": {
+    "type": "Gomix",
+    "url": "https://gomix.com/#!/project/ifat"
+  },
+  "keywords": [
+    "node",
+    "gomix",
+    "express"
+  ],
+  "license": "MIT"
 }

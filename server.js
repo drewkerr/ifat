@@ -3,13 +3,14 @@
 
 // init project
 var express = require('express');
-var low = require('lowdb');
-var fileAsync = require('lowdb/lib/storages/file-async');
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync');
 var moment = require('moment');
 var app = express();
 
 // start database using file-async storage
-var db = low('.data/db.json', { storage: fileAsync });
+const adapter = new FileSync('.data/db.json')
+const db = low(adapter)
 
 // set some defaults if JSON file is empty
 db.defaults({ results: [] }).write();
@@ -75,7 +76,7 @@ app.get('/admin/new', function (request, response) {
   response.redirect('/admin/' + code + '/' + user + '/');
 });
 
-app.get('/admin/:code/:user', function (request, response) {
+app.get('/admin/:code/:user/', function (request, response) {
   var results = db.get('results')
                   .find({ code: request.params.code })
                   .value();
@@ -151,7 +152,7 @@ app.get('/join', function (request, response) {
               .value();
   if (!request.query.name) {
     response.redirect('/?error=Please enter names');
-  } else if (!results.key) {
+  } else if (!results) {
     response.redirect('/?error=Incorrect code');
   } else {
     for (var q = 1; q <= results.key.length; q++) {
@@ -170,7 +171,7 @@ app.get('/join', function (request, response) {
 });
 
 
-app.get('/:code/:user', function (request, response) {
+app.get('/:code/:user/', function (request, response) {
   var ans = db.get('results')
               .find({ code: request.params.code })
               .get('responses')

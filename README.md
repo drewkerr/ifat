@@ -6,7 +6,7 @@ TBL has two phases:
 1. Readiness assurance process (RAP)
    - Individual readiness assurance test (iRAT) where students take a (differentiated) multiple choice test on the topic to be studied, which is then marked by their teacher;
    - Team readiness assurance test (tRAT) where teams of students retake the same test, reaching consensus on their choices and receiving immediate feedback e.g. through 'scratchy' cards;
-2. Application exercises, where all teams work on the same, signicant problems before simultaneously reporting their specific choice.
+2. Application exercises, where all teams work on the same, significant problems before simultaneously reporting their specific choice.
 
 The use of IF-AT is key to the tRAT. This tool provides a digital alternative to the use of the scratchy paper IF-AT cards which can be hard to source.
 

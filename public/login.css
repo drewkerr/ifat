@@ -64,9 +64,6 @@ button {
 .message {
   background-color: #f33;
   color: white;
-}
-
-.message {
   animation: fadeout 5s;
   opacity: 0;
 }
