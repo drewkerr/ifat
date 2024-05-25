@@ -9,8 +9,8 @@ var moment = require('moment');
 var app = express();
 
 // start database using file-async storage
-const adapter = new FileSync('.data/db.json')
-const db = low(adapter)
+const adapter = new FileSync('.data/db.json');
+const db = low(adapter);
 
 // set some defaults if JSON file is empty
 db.defaults({ results: [] }).write();
