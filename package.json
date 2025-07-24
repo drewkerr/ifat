@@ -1,6 +1,6 @@
 {
   "name": "if-at",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Online assessment tool giving immediate feedback for multiple-choice tests",
   "main": "server.js",
   "scripts": {
@@ -13,15 +13,14 @@
     "moment": "^2.30.1"
   },
   "engines": {
-    "node": "16.x"
+    "node": "18.x"
   },
   "repository": {
-    "type": "Glitch",
-    "url": "https://glitch.com/#!/project/ifat"
+    "type": "Github",
+    "url": "http://github.com/drewkerr/ifat"
   },
   "keywords": [
     "node",
-    "glitch",
     "express"
   ],
   "license": "MIT"

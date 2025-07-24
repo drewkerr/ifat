@@ -30,16 +30,32 @@ function rString(len) {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/about', function (request, response) {
-  response.render('about', { title: 'About IF-AT' });
+  const t = db.get('results')
+    .size()
+    .value();
+  const p = db.get('results')
+    .map('responses')
+    .flatten()
+    .size()
+    .value();
+  const r = db.get('results')
+    .flatMap('responses')
+    .map('questions')
+    .map(q => Object.values(q))
+    .flatten()
+    .map(ans => ans.length)
+    .sum()
+    .value();
+  response.render('about', { title: 'About IF-AT', participants: p, responses: r, tests: t });
 });
 
 app.get('/admin/json', function (request, response) {
   response.json(db.getState());
 });
 
-app.get('/admin/reset', function (request, response) {
-  response.json(db.set('results', []));
-});
+//app.get('/admin/reset', function (request, response) {
+//  response.json(db.set('results', []));
+//});
 
 app.get('/admin', function (request, response) {
   response.render('new', { title: 'IF-AT Administration', error: request.query.error });
@@ -83,7 +99,7 @@ app.get('/admin/:code/:user/', function (request, response) {
   if (!results || request.params.user !== results.user ) {
     response.redirect('/admin?error=Results unavailable');
   } else {
-    response.render('results', { title: 'IF-AT Results', results: results });
+    response.render('results', { title: 'IF-AT Results', results: results, host: request.get('host') });
   }
 });
 
@@ -258,6 +274,6 @@ app.get('/:code/:user/save', function (request, response) {
 });
 
 // Listen for requests
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(process.env.PORT || 8080, function () {
   console.log('Listening on port ' + listener.address().port);
 });
